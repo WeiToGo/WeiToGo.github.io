@@ -22,6 +22,7 @@ This project was submitted by Wei Gao.
 </p>
 
 <h1>Introduction</h1>
+
 <p>
 Accurate and robust tracking systems are essential in many robotic systems. They are needed in autonomous driving cars to compute the location information of surrounding vehicles and objects, and in  any kinds of dynamic environments where a robot has to perform tasks autonomously. Such tracking system can be very challenging to develop, as the surrounding objects in real worlds do not have the same shapes and brightness, and there may be heavy occlusions that would influence the sensor data. Also, in order to be useful, a tracking system has to computing the information in real-time  in order to behave safely in a real-world dynamic environment. Over the years, many methods have been proposed to improve the tracking systems but few have been accurate and robust enough, as most methods do not consider all available data due to time constraints. In the paper “Combining 3D shape, color and motion for robust anytime tracking” by David Held, Jesse Levinson, Sebastian Thrun, Silvio Savarese, they presented a novel approach that incorporates the 3D shape of the tracked object, along with its color and motion information in the measurement model to get an accurate and robust tracking. They used a method called annealed dynamic histogram (ADH) to sample velocities from the state space and it allowed global exploration of the state space in real-time. This paper will discuss the implemention of the first part of their algorithm, which is the computation of a histogram of state space represented by velocities.
 </p>
@@ -46,5 +47,7 @@ To simplify the data, only scan data at each second is considered, and only one 
 <p>
 In summary, our results show that histogram is an accurate way to estimate the speed of an object under simple assumptions like static background, static laser, empty world. Due to the limitation of the simulation, many conditions cannot be tested. (multiple objects, random moves...).
 The advantages of the method are it works with different speeds and shapes of object and is consistent through all trials. The disadvantages are since we subdivide the state space based on the first measurement, it is possible to have large error if for some reason the first scan is very inaccurate. Also, since every new histogram is based on the previous histogram, errors may be propagated. It may be helpful to discuss in the paper cases where many velocities get similar amount of points, and how it is decided which regions to keep exploring, as it is assumed there is a limited memory to store the histogram data.
+
 </p>
+
 </BODY>
