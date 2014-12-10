@@ -3,8 +3,7 @@
 Project
 </TITLE>
 </HEAD>
-<BODY><P>
-<P>
+<BODY>
 <H1>
 
 Project based on the paper "Combining 3D Shape, Color and Motion for Robust Anytime Tracking"
@@ -15,35 +14,37 @@ Project based on the paper "Combining 3D Shape, Color and Motion for Robust Anyt
 This is the outline of my robotics 417 graphics project.  This
 project was required work for the 
 <a href="http://www.cim.mcgill.ca/~dudek/417.html">
-Introduction to Robotics
-</a>
+Introduction to Robotics </a>
 taught by <a href="http://www.cim.mcgill.ca/~dudek">Gregory Dudek</a>.
 
 <P>
-This project was submitted by Wei Gao.</a>
+This project was submitted by Wei Gao.
+</p>
 
 <h1>Introduction</h1>
+<p>
 Accurate and robust tracking systems are essential in many robotic systems. They are needed in autonomous driving cars to compute the location information of surrounding vehicles and objects, and in  any kinds of dynamic environments where a robot has to perform tasks autonomously. Such tracking system can be very challenging to develop, as the surrounding objects in real worlds do not have the same shapes and brightness, and there may be heavy occlusions that would influence the sensor data. Also, in order to be useful, a tracking system has to computing the information in real-time  in order to behave safely in a real-world dynamic environment. Over the years, many methods have been proposed to improve the tracking systems but few have been accurate and robust enough, as most methods do not consider all available data due to time constraints. In the paper “Combining 3D shape, color and motion for robust anytime tracking” by David Held, Jesse Levinson, Sebastian Thrun, Silvio Savarese, they presented a novel approach that incorporates the 3D shape of the tracked object, along with its color and motion information in the measurement model to get an accurate and robust tracking. They used a method called annealed dynamic histogram (ADH) to sample velocities from the state space and it allowed global exploration of the state space in real-time. This paper will discuss the implemention of the first part of their algorithm, which is the computation of a histogram of state space represented by velocities.
+</p>
 
 <h1>Results</h1>
-
+<p>
 Due to the compexity of this method, only the first part of the ADH method is implemented. The implementation is done with a robot simulator in ROS and Gazebo using the laser feature of the Husky robot. The laser is limited to 2D so only points along the horizontal planed is tracked. A 3D object is used to model the tracked object and it's moving constantly along one direction across the grid within the range of the Huslky laser sensor. 
 
 The collected laser data is then used to compute the histogram of the velocities. To simplify, we assume  objects only move toward one direction and the speed can only be between 0 to 1. The histogram is then contructed by dividing the speed range to 11 equal intervals (0.1, 0.2, ...1.0) and counting the number of points presenting each of the speed. After constructing a first histogram, the range of the most likely speed is found and a second histogram is constructed around the new range to get a more precise estimate of the speed. For example, if 0.5 get most points, the new speed range will be between 0.045 and 0.055. Experiments are run with two types of object, a sphere and a cylinder with different speed and the resulting histograms gave an accurate estimate of the velocity. *
 
 *For the cylinder, the linear velocity is set to 0.08, the histogram returns 0.083, and it is unclear which part of the simulation caused this slight difference.
-
+</p>
 
 <h1> Note on the experiments </h1>
 
+<p>
 There are a few things that should be included in the experiment, but due to the complexity of interacting with ROS and Gazebo, there was not enough time to run experiment with these extra features. For example, it would be useful to measure the speed of an object that is accelerating and see how accurate the estimation follows. Also, an assumption is made in the experiment that objects only move along one direction, so velocity measure becomes speed measure. In order to have closer than real-life simulation, objects should be allowed to move in any direction and velocity should be measured. Lastly, since the method in the original paper aims to measure velocity accurately with other moving objects around, it may be helpful to experiment with more objects and see if the histogram can still show their speed accurately. Also, since only 2D laser is available or the simulation, it was not possible to track properly objects that do not move along one plane. (exaple: a cube that “rolls”)
 To simplify the data, only scan data at each second is considered, and only one subdivision of the state space is performed.
-
+</p>
 
 <h1>Conclusions </h1>
-
+<p>
 In summary, our results show that histogram is an accurate way to estimate the speed of an object under simple assumptions like static background, static laser, empty world. Due to the limitation of the simulation, many conditions cannot be tested. (multiple objects, random moves...).
 The advantages of the method are it works with different speeds and shapes of object and is consistent through all trials. The disadvantages are since we subdivide the state space based on the first measurement, it is possible to have large error if for some reason the first scan is very inaccurate. Also, since every new histogram is based on the previous histogram, errors may be propagated. It may be helpful to discuss in the paper cases where many velocities get similar amount of points, and how it is decided which regions to keep exploring, as it is assumed there is a limited memory to store the histogram data.
-
-
+</p>
 </BODY>
